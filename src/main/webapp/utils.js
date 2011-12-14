@@ -136,6 +136,20 @@ function getJobText(job) {
 	{
 		jobText += ' #' + job.lastBuild.number; 
 	}
+	
+	if(job.lastBuild.result == "FAILURE") {
+	  jobText = " broke " + jobText;
+  }
 
 	return jobText;
+}
+
+function getFailureText(job) {
+  var failureText = ''
+  
+  if(job.lastBuild.result == "FAILURE") {
+    failureText = job.lastBuild.culprits[0].fullName;
+  }
+  
+  return failureText
 }

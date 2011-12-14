@@ -103,7 +103,7 @@
 
 		function getJobDimensions(job, fontSize) {
 
-			var textDimensions = getTextDimensions(getJobText(job), fontSize);
+			var textDimensions = getTextDimensions(getFailureText(job) + getJobText(job), fontSize);
 
 			var dimension = {};
 			dimension.width = textDimensions.width + 2 * jobPadding + 2 * jobBorderWidth;
@@ -273,6 +273,7 @@
 								jobContent.addClass("job_content");
 								jobContent.css(jobDimensionsStyle);
 								jobContent.text(getJobText(job));
+								jobContent.prepend($('<div />').addClass("culprits_name").text(getFailureText(job)));
 	
 								//- create the job wrapper div ---------------------
 								var jobWrapper = $('<div />').attr({
@@ -346,7 +347,7 @@
 						url: jenkinsUrl +  "/job/" + jobName + "/api/json",
 						dataType: "json",
 						data: {
-							"tree": "property[wallDisplayName],name,color,lastBuild[number,timestamp,duration],lastSuccessfulBuild[duration]"
+							"depth": "1"
 						},
 						success: function(job, textStatus, jqXHR) {
 							debug("finished getting api for job '" + jobName + "'");

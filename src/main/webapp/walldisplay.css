@@ -90,3 +90,9 @@ html, body {
 	border-radius: 20px;
 	-moz-border-radius: 20px;
 }
+
+.culprits_name {
+  color: #E7CCCC;
+  display: inline;
+}
+
