@@ -158,6 +158,11 @@ function getJobText(job, showBuildNumber, showDetails) {
 			}
 		}		
 	}
+
+
+	if(job.lastBuild.result == "FAILURE") {
+        	jobText = " broke " + jobText;
+    	}
 	
 	return jobText;
 }
@@ -174,4 +179,14 @@ function getCulprit(job) {
 
 function isNumber(n) {
   return !isNaN(parseFloat(n)) && isFinite(n);
+}
+
+function getFailureText(job) {
+  var failureText = ''
+  
+  if(job.lastBuild.result == "FAILURE") {
+    failureText = job.lastBuild.culprits[0].fullName;
+  }
+  
+  return failureText
 }
