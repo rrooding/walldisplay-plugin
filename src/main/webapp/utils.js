@@ -132,10 +132,12 @@ function getJobText(job, showBuildNumber, showDetails) {
 
 	var jobText = getJobTitle(job);
     
-      if (showBuildNumber && job.lastBuild != null && job.lastBuild.number != null)    
-      {    
-	  jobText += ' #' + job.lastBuild.number;
-      }
+	if (showBuildNumber && job.lastBuild != null && job.lastBuild.number != null) {
+	        jobText += ' #' + job.lastBuild.number;
+	        if(job.lastBuild.result == "FAILURE" && job.lastBuild.culprits.length > 0) {
+	        	jobText = " broke " + jobText;
+	        }
+	}
     
 	var appendText = new Array();
 
@@ -159,11 +161,6 @@ function getJobText(job, showBuildNumber, showDetails) {
 		}		
 	}
 
-
-	if(job.lastBuild.result == "FAILURE") {
-        	jobText = " broke " + jobText;
-    	}
-	
 	return jobText;
 }
 
@@ -182,11 +179,8 @@ function isNumber(n) {
 }
 
 function getFailureText(job) {
-  var failureText = ''
-  
-  if(job.lastBuild.result == "FAILURE") {
-    failureText = job.lastBuild.culprits[0].fullName;
-  }
-  
-  return failureText
+	if(job.lastBuild != null && job.lastBuild.result == "FAILURE" && job.lastBuild.culprits.length > 0) {
+		return job.lastBuild.culprits[0].fullName;
+	}
+	return "";
 }
